@@ -1,3 +1,11 @@
+# ByteTrack-Pybind11: 高性能实时目标跟踪解决方案 🚀
+
+这个项目提供了基于`ByteTrack-TensorRT`的`Python`插件，并在原有算法基础上提供了跟踪目标的类别信息，`Jetson Orin Nano`在[YOLOv5-TensorRT-Python](https://github.com/HouYanSong/yolov5_trt_pybind11)插件的基础上实现高达`83 FPS`的实时检测跟踪性能。
+
+- ⚡ **极致性能**: 基于`TensorRT`优化，充分利用硬件加速
+- 📦 **开箱即用**：构建过程简单，快速部署您的跟踪应用
+- 🐍 **Python 友好**: 使用`Pybind11`提供简洁`Python`接口
+- 📱 **边缘设备优化**: 特别针对`Jetson`边缘设备进行适配
 
 ![](result.gif)
 
