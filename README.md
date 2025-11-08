@@ -15,7 +15,7 @@ sudo apt update
 sudo apt install ffmpeg
 sudo apt install pybind11-dev
 sudo apt install libeigen3-dev
-cd bytetrack_trt_pybind11
+cd bytetrack_pybind11
 pip install pybind11
 rm -fr build
 cmake -S . -B build
