@@ -6,7 +6,7 @@
 
 namespace py = pybind11;
 
-PYBIND11_MODULE(bytetrack_trt, m) {
+PYBIND11_MODULE(byte_track, m) {
     m.doc() = "BYTETRACK Tracker using TensorRT";
 
     py::class_<cv::Rect_<float>>(m, "RectFloat")

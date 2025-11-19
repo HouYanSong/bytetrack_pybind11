@@ -9,7 +9,7 @@ ctypes.CDLL("./build/libbytetrack.so", mode=ctypes.RTLD_GLOBAL)
 
 # 导入YOLOv5检测器和ByteTrack跟踪器
 from yolov5_trt_plugin import yolov5_trt
-from build import bytetrack_trt
+from build import byte_track
 
 def draw_image(image, detections, tracks, fps):
     for track in tracks:
@@ -22,7 +22,7 @@ def draw_image(image, detections, tracks, fps):
                    cv2.FONT_HERSHEY_PLAIN, 1.2, (0, 0, 255), 2)
     
     cv2.putText(image, f"FPS: {fps:.2f}", (10, 30), 
-               cv2.FONT_HERSHEY_PLAIN, 1.5, (0, 0, 255), 2)
+                cv2.FONT_HERSHEY_PLAIN, 1.5, (0, 0, 255), 2)
     
     return image
 
@@ -31,10 +31,10 @@ def main(input_path, output_path):
     fps_value = int(cap.get(cv2.CAP_PROP_FPS))
     width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
     height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
-    writer = cv2.VideoWriter(output_path, cv2.VideoWriter_fourcc(*'MJPG'), fps_value, (width, height))    
+    writer = cv2.VideoWriter(output_path, cv2.VideoWriter_fourcc(*'mp4v'), fps_value, (width, height))    
 
     detector = yolov5_trt.YOLOv5Detector("./yolov5_trt_plugin/yolov5s.engine", width, height)
-    tracker = bytetrack_trt.BYTETracker(frame_rate = fps_value, track_buffer = 30)
+    tracker = byte_track.BYTETracker(frame_rate = fps_value, track_buffer = 30)
     
     fps_list = []
     frame_count = 0
@@ -54,11 +54,11 @@ def main(input_path, output_path):
         objects = []
         for det in detections:
             x1, y1, x2, y2 = det['bbox']
-            rect = bytetrack_trt.RectFloat(x1, y1, x2-x1, y2-y1)  # x, y, width, height
-            obj = bytetrack_trt.Object()
+            rect = byte_track.RectFloat(x1, y1, x2-x1, y2-y1)  # x, y, width, height
+            obj = byte_track.Object()
             obj.rect = rect
             obj.label = det['class_id']
-            obj.prob = det['confidence']
+            obj.prob = 1.0  # 置信度设为1.0
             objects.append(obj)
             
         # 目标跟踪
@@ -88,5 +88,5 @@ def main(input_path, output_path):
 
 if __name__ == "__main__":
     input_video = "./media/sample_720p.mp4"  
-    output_video = "./result.avi"  
+    output_video = "./result.mp4"  
     main(input_video, output_video)
