@@ -54,11 +54,12 @@ def main(input_path, output_path):
         objects = []
         for det in detections:
             x1, y1, x2, y2 = det['bbox']
-            rect = byte_track.RectFloat(x1, y1, x2-x1, y2-y1)  # x, y, width, height
-            obj = byte_track.Object()
-            obj.rect = rect
-            obj.label = det['class_id']
-            obj.prob = 1.0  # 置信度设为1.0
+            if not (np.isnan(x) or np.isnan(y) or np.isnan(w) or np.isnan(h)):
+                rect = byte_track.RectFloat(x1, y1, x2-x1, y2-y1)  # x, y, width, height
+                obj = byte_track.Object()
+                obj.rect = rect
+                obj.label = det['class_id']
+                obj.prob = 1.0  # 置信度设为1.0
             objects.append(obj)
             
         # 目标跟踪
